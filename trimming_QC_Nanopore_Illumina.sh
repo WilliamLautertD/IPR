@@ -3,27 +3,35 @@
 # Input and output directories
 
 READS='/home/ipr/biosurf/data/NanoporeWilliam/concat_files_Nanopore'
-
-OUT_FOLDER='/home/ipr/biosurf/analysis/Reads_QC/Nanopore_reads/trimmed_reads'
+READS_Illumina='/home/ipr/biosurf/analysis/Reads_QC/Illumina_reads'
+OUT_FOLDER='/home/ipr/biosurf/analysis/Reads_QC/Nanopore_reads/trimmed_reads/trimming_3'
  
 # Export variables
 
-export READS OUT_FOLDER
+export READS OUT_FOLDER READS_Illumina
  
 # Create necessary directories
 
 mkdir -p "$OUT_FOLDER" "$OUT_FOLDER/FASTQ/"
- 
-# Process files in parallel
 
-find "$READS" -name '*.fastq.gz' | parallel -j 10 '
+# 235
+filtlong -1 "$READS_Illumina"/BIOSURF_trim_235/*R1_paired_min90.fq.gz -2 "$READS_Illumina"/BIOSURF_trim_235/*R2_paired_min90.fq.gz --min_length 1000 --keep_percent 90 "$READS/BIOSURF_235.fastq.gz" | gzip > "$OUT_FOLDER/BIOSURF_235_yes_illumina.fq.gz"
 
-    NAME=$(basename "{}" .fastq.gz);
+# 250
+filtlong -1 "$READS_Illumina"/BIOSURF_trim_250/*_R1.fq.gz -2 "$READS_Illumina"/BIOSURF_trim_250/*_R2.fq.gz --min_length 1000 --keep_percent 90 "$READS/BIOSURF_250.fastq.gz" | gzip > "$OUT_FOLDER/BIOSURF_250_yes_illumina.fq.gz"
 
-    filtlong --min_length 1000 --keep_percent 90 "{}" | gzip > "$OUT_FOLDER/${NAME}_no_illumina.fq.gz"
+# 253
+filtlong -1 "$READS_Illumina"/BIOSURF_trim_253/*_R1.fq.gz -2 "$READS_Illumina"/BIOSURF_trim_253/*_R2.fq.gz --min_length 1000 --keep_percent 90 "$READS/BIOSURF_253.fastq.gz" | gzip > "$OUT_FOLDER/BIOSURF_253_yes_illumina.fq.gz" 
 
-'
- 
+# 282
+filtlong -1 "$READS_Illumina"/BIOSURF_trim_282/*_R1.fq.gz -2 "$READS_Illumina"/BIOSURF_trim_282/*_R2.fq.gz --min_length 1000 --keep_percent 90 "$READS/BIOSURF_282.fastq.gz" | gzip > "$OUT_FOLDER/BIOSURF_282_yes_illumina.fq.gz" 
+
+# 283
+filtlong -1 "$READS_Illumina"/BIOSURF_trim_283/*_R1.fq.gz -2 "$READS_Illumina"/BIOSURF_trim_283/*_R2.fq.gz --min_length 1000 --keep_percent 90 "$READS/BIOSURF_283.fastq.gz" | gzip > "$OUT_FOLDER/BIOSURF_283_yes_illumina.fq.gz" 
+
+# 287
+filtlong -1 "$READS_Illumina"/BIOSURF_trim_287/*R1_paired_val_1.fq.gz -2 "$READS_Illumina"/BIOSURF_trim_287/*R2_paired_val_2.fq.gz --min_length 1000 --keep_percent 90 "$READS/BIOSURF_287.fastq.gz" | gzip > "$OUT_FOLDER/BIOSURF_287_yes_illumina.fq.gz" 
+
 # Quality control with FastQC
 
 fastqc "$OUT_FOLDER"/*.fq.gz -t 8 -o "$OUT_FOLDER/FASTQ/"

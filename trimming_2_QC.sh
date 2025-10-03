@@ -4,7 +4,7 @@
 
 READS='/home/ipr/biosurf/data/NanoporeWilliam/concat_files_Nanopore'
 
-OUT_FOLDER='/home/ipr/biosurf/analysis/Reads_QC/Nanopore_reads/trimmed_reads'
+OUT_FOLDER='/home/ipr/biosurf/analysis/Reads_QC/Nanopore_reads/trimmed_reads/trimming_2/'
  
 # Export variables
 
@@ -12,21 +12,21 @@ export READS OUT_FOLDER
  
 # Create necessary directories
 
-mkdir -p "$OUT_FOLDER" "$OUT_FOLDER/FASTQ/"
+mkdir -p "$OUT_FOLDER" "$OUT_FOLDER/FASTQC/"
  
 # Process files in parallel
 
-find "$READS" -name '*.fastq.gz' | parallel -j 10 '
+find "$READS" -name '*.fastq.gz' | parallel -j 20 '
 
     NAME=$(basename "{}" .fastq.gz);
 
-    filtlong --min_length 1000 --keep_percent 90 "{}" | gzip > "$OUT_FOLDER/${NAME}_no_illumina.fq.gz"
+    filtlong --min_length 1000 --min_mean_q 50 --keep_percent 90 "{}" | gzip > "$OUT_FOLDER/${NAME}_no_illumina.fq.gz"
 
 '
  
 # Quality control with FastQC
 
-fastqc "$OUT_FOLDER"/*.fq.gz -t 8 -o "$OUT_FOLDER/FASTQ/"
+fastqc "$OUT_FOLDER"/*.fq.gz -t 8 -o "$OUT_FOLDER/FASTQC/"
  
 # MultiQC summary
 

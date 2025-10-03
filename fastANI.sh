@@ -1,4 +1,4 @@
-x§#!/bin/bash
+#!/bin/bash
 
 REF_LIST='/Users/williamlautert/Desktop/William-bio-surf/data/refs/Halomonas_db/ncbi_dataset/data/Halomonas_db_path.txt'
 OUT='/Users/williamlautert/Desktop/William-bio-surf/analysis/287/ANI/fastANI'
