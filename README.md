@@ -81,11 +81,6 @@ This repository does not currently include automated dependency management. Ensu
 
 These files can be used as starting points for pipeline configuration and path management.
 
-## Suggested improvements
+## Maintenance
 
-If you plan to maintain this repository long-term, consider:
-
-- adding per-script usage blocks (`--help` style comments),
-- standardizing input/output directory conventions,
-- adding a dependency manifest (Conda environment or container),
-- adding a top-level orchestrator script with documented stages.
+This repository is a backup of scripts and is not maintained.
